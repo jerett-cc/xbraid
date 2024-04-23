@@ -31,3 +31,9 @@ drive-ks
 # etc.
 Eigen
 __pycache__
+
+# VSCode 
+
+*.project*
+*.cproject*
+*.settings/
