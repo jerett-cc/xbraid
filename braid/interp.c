@@ -101,6 +101,13 @@ _braid_FInterp(braid_Core  core,
          _braid_Refine(core, f_level, f_index, fi, e, &f_e);
          _braid_UGetVectorRef(core, f_level, f_index, &f_u);
          _braid_BaseSum(core, app,  1.0, f_e, 1.0, f_u);
+         // If we have specified a projection map, we project f_u before we set anything.
+         if( (access_level >=3 ) )
+         {
+            _braid_AccessStatusInit(ta[fi-ilower], f_index, rnorm, iter, f_level, nrefine, gupper,
+                                    0, 0, braid_ASCaller_FInterp_Projection, f_u->basis, astatus);
+            _braid_AccessVector(core, astatus, f_u);
+         }
          _braid_USetVectorRef(core, f_level, f_index, f_u);
          _braid_BaseFree(core, app,  f_e);
          if (_braid_CoreElt(core, delta_correct))
@@ -137,6 +144,13 @@ _braid_FInterp(braid_Core  core,
          _braid_Refine(core, f_level, f_index, ci, e, &f_e);
          _braid_UGetVectorRef(core, f_level, f_index, &f_u);
          _braid_BaseSum(core, app,  1.0, f_e, 1.0, f_u);
+         // If we have specified a projection map, we project f_u before we set anything.
+         if( (access_level >=3 ) )
+         {
+            _braid_AccessStatusInit(ta[fi-ilower], f_index, rnorm, iter, f_level, nrefine, gupper,
+                                    0, 0, braid_ASCaller_FInterp_Projection, f_u->basis, astatus);
+            _braid_AccessVector(core, astatus, f_u);
+         }
          _braid_USetVectorRef(core, f_level, f_index, f_u);
          _braid_BaseFree(core, app,  f_e);
          /* Allow user to process current C-point on the FINEST level*/
