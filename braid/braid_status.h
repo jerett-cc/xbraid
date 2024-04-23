@@ -754,6 +754,8 @@ ACCESSOR_HEADER_GET1(Objective, Tol,           Real)
 #define braid_ASCaller_Residual 11
 /** When CallingFunction equals 12, Braid is in InitGuess */
 #define braid_ASCaller_InitGuess 12
+/** When CallingFunction equals 13, Braid is in Finterp, and we are supposed to do a user defined projection on the interpolated vector.*/
+#define braid_ASCaller_FInterp_Projection 13
 
 /** @}*/
 
