@@ -138,7 +138,7 @@ public:
       core.SetDeltaCorrection()
        @see braid_PtFcnInitBasis. */
    virtual braid_Int InitBasis(braid_Real    t,
-                               braid_Int     index,
+                               braid_Int     /*index*/,
                                braid_Vector *u_ptr)
    {
       fprintf(stderr, "Braid C++ Wrapper Warning: turn off Delta correction "
@@ -151,9 +151,9 @@ public:
       vectors and store the result in *prod_ptr. The standard
       choice would be the dot product.
        @see braid_PtFcnInnerProd. */
-   virtual braid_Int InnerProd(braid_Vector    u,
-                               braid_Vector    v,
-                               braid_Real     *prod_ptr)
+   virtual braid_Int InnerProd(braid_Vector    /*u*/,
+                               braid_Vector    /*v*/,
+                               braid_Real*     /*prod_ptr*/)
    {
       fprintf(stderr, "Braid C++ Wrapper Warning: turn off Delta correction "
                       "until InnerProd has been user implemented\n");
@@ -166,7 +166,7 @@ public:
    /// @see braid_PtFcnSCoarsen.
    virtual braid_Int Coarsen(braid_Vector           fu_,
                              braid_Vector          *cu_ptr,
-                             BraidCoarsenRefStatus &status)
+                             BraidCoarsenRefStatus &/*status*/)
    {
       fprintf(stderr, "Braid C++ Wrapper Warning: turn off spatial coarsening "
                       "until Coarsen and Refine have been user implemented\n");
@@ -177,7 +177,7 @@ public:
    /// @see braid_PtFcnSRefine.
    virtual braid_Int Refine(braid_Vector           cu_,
                             braid_Vector          *fu_ptr,
-                            BraidCoarsenRefStatus &status)
+                            BraidCoarsenRefStatus &/*status*/)
    {
       fprintf(stderr, "Braid C++ Wrapper Warning: turn off spatial coarsening "
                       "until Coarsen and Refine have been user implemented\n");
@@ -190,7 +190,7 @@ public:
    /// points during the code (see documentation for more details).
    /// To turn on sync, use core.SetSync()
    /// @see braid_PtFcnSync.
-   virtual braid_Int Sync(BraidSyncStatus &sstatus)
+   virtual braid_Int Sync(BraidSyncStatus &/*sstatus*/)
    {
       fprintf(stderr, "Braid C++ Wrapper Warning: turn off sync "
               "until the Sync function been user implemented\n");
