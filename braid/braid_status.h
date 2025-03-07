@@ -760,6 +760,9 @@ ACCESSOR_HEADER_GET1(Objective, Tol,           Real)
 /** When CallingFunction equals 14, Braid is in Finterp, and we are supposed let the user
     have access to the error f_e, otherwise known as tau.*/
 #define braid_ASCaller_FInterp_VisualizeTau 14
+/** When CallingFunction equals 15, Braid is in Finterp, and we are supposed let the user
+    have access to the error e, the error on the coarse level.*/
+#define braid_ASCaller_FInterp_VisualizeTau_Coarse 15
 
 /** @}*/
 

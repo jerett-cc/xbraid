@@ -115,6 +115,12 @@ _braid_FInterp(braid_Core  core,
 	    _braid_AccessStatusInit(ta[fi-ilower], f_index, rnorm, iter, f_level, nrefine, gupper,
 				    0, 0, braid_ASCaller_FInterp_VisualizeTau, f_u->basis, astatus);
 	    _braid_AccessVector(core, astatus, f_e);
+
+	    // Access for e the error u-e on the coarse level.
+	    _braid_AccessStatusInit(ta[fi-ilower], f_index, rnorm, iter, f_level, nrefine, gupper,
+				    0, 0, braid_ASCaller_FInterp_VisualizeTau_Coarse,
+				    u->basis, astatus);
+	    _braid_AccessVector(core, astatus, e);
          }
          _braid_USetVectorRef(core, f_level, f_index, f_u);
          _braid_BaseFree(core, app,  f_e);
