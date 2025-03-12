@@ -99,7 +99,7 @@ _braid_FInterp(braid_Core  core,
 	 // This is the correction term. Here, we want to allow the user to peek at
 	 // both parts, u and e, before we add, and after we add, which happens in
 	 // the next if statement, on this level and the fine level.
-	 if ( (access_level >=3 ) )
+	 if ( (access_level >=4 ) )
 	 {
 	   // Access to u.
             _braid_AccessStatusInit(ta[fi-ilower], fi, rnorm, iter, level, nrefine, gupper,
@@ -123,7 +123,7 @@ _braid_FInterp(braid_Core  core,
 	 // to peek at both parts of f_e, f_u before we add them together, and
 	 // then see them after the sum is done.
 
-	 if ( (access_level >=3 ) )
+	 if ( (access_level >=4 ) )
 	 {
 	   // Access to f_u.
 	   _braid_AccessStatusInit(ta[fi-ilower], f_index, rnorm, iter, f_level, nrefine, gupper,
@@ -191,10 +191,39 @@ _braid_FInterp(braid_Core  core,
             _braid_AccessVector(core, astatus, u);
          }
          e = va[ci-ilower];
+
+	 /* Allow user to process current C-point u and e */
+         if( (access_level >= 4) )
+         {
+            _braid_AccessStatusInit(ta[ci-ilower], ci, rnorm, iter, level, nrefine, gupper,
+                                    0, 0, braid_ASCaller_FInterp_CoarsePoint_BeforeCorrectSum_u,
+				    u->basis, astatus);
+            _braid_AccessVector(core, astatus, u);
+	    _braid_AccessStatusInit(ta[ci-ilower], ci, rnorm, iter, level, nrefine, gupper,
+                                    0, 0, braid_ASCaller_FInterp_CoarsePoint_BeforeCorrectSum_e,
+				    e->basis, astatus);
+            _braid_AccessVector(core, astatus, e);
+	    
+         }
+	 
          _braid_BaseSum(core, app,  1.0, u, -1.0, e);
          _braid_MapCoarseToFine(ci, f_cfactor, f_index);
          _braid_Refine(core, f_level, f_index, ci, e, &f_e);
          _braid_UGetVectorRef(core, f_level, f_index, &f_u);
+
+	 /* Allow user to process current C-point u and e but on fine level before summing. */
+         if( (access_level >= 4) )
+         {
+            _braid_AccessStatusInit(ta[ci-ilower], f_index, rnorm, iter, f_level, nrefine, gupper,
+                                    0, 0, braid_ASCaller_FInterp_CoarsePoint_onfine_BeforeCorrectSum_u,
+				    f_u->basis, astatus);
+            _braid_AccessVector(core, astatus, f_u);
+	    _braid_AccessStatusInit(ta[ci-ilower], f_index, rnorm, iter, f_level, nrefine, gupper,
+                                    0, 0, braid_ASCaller_FInterp_CoarsePoint_onfine_BeforeCorrectSum_e,
+				    f_e->basis, astatus);
+            _braid_AccessVector(core, astatus, f_e);
+	    
+         }
          _braid_BaseSum(core, app,  1.0, f_e, 1.0, f_u);
          // If we have specified a projection map, we project f_u before we set anything.
          if( (access_level >=3 ) )

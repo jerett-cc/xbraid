@@ -766,16 +766,27 @@ ACCESSOR_HEADER_GET1(Objective, Tol,           Real)
 /** When CallingFunction equals 16, Braid is in Finterp, and we are supposed let the user
     have access to the coarse u before the coarse sum correction.*/
 #define braid_ASCaller_FInterp_BeforeCorrectSum_u 16
-/** When CallingFunction equals 16, Braid is in Finterp, and we are supposed let the user
+/** When CallingFunction equals 17, Braid is in Finterp, and we are supposed let the user
     have access to the coarse error e before the coarse sum.*/
 #define braid_ASCaller_FInterp_BeforeCorrectSum_e 17
-/** When CallingFunction equals 16, Braid is in Finterp, and we are supposed let the user
+/** When CallingFunction equals 18, Braid is in Finterp, and we are supposed let the user
     have access to the fine u before the correction sum.*/
 #define braid_ASCaller_FInterp_BeforeFineCorrectSum_u 18
-/** When CallingFunction equals 16, Braid is in Finterp, and we are supposed let the user
+/** When CallingFunction equals 19, Braid is in Finterp, and we are supposed let the user
     have access to the fine error e before we add to u.*/
 #define braid_ASCaller_FInterp_BeforeFineCorrectSum_e 19
-
+/** When CallingFunction equals 20, Braid is in Finterp, and we are supposed let the user
+    have access to the fine error e before we add to u.*/
+#define braid_ASCaller_FInterp_CoarsePoint_BeforeCorrectSum_u 20
+/** When CallingFunction equals 21, Braid is in Finterp, and we are supposed let the user
+    have access to the fine error e before we add to u.*/
+#define braid_ASCaller_FInterp_CoarsePoint_BeforeCorrectSum_e 21
+/** When CallingFunction equals 22, Braid is in Finterp, and we are supposed let the user
+    have access to the fine error e before we add to u.*/
+#define braid_ASCaller_FInterp_CoarsePoint_onfine_BeforeCorrectSum_u 22
+/** When CallingFunction equals 23, Braid is in Finterp, and we are supposed let the user
+    have access to the fine error e before we add to u.*/
+#define braid_ASCaller_FInterp_CoarsePoint_onfine_BeforeCorrectSum_e 23
 /** @}*/
 
 
