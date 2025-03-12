@@ -96,10 +96,48 @@ _braid_FInterp(braid_Core  core,
          {
             e = va[fi-ilower];
          }
+	 // This is the correction term. Here, we want to allow the user to peek at
+	 // both parts, u and e, before we add, and after we add, which happens in
+	 // the next if statement, on this level and the fine level.
+	 if ( (access_level >=3 ) )
+	 {
+	   // Access to u.
+            _braid_AccessStatusInit(ta[fi-ilower], fi, rnorm, iter, level, nrefine, gupper,
+                                    0, 0, braid_ASCaller_FInterp_BeforeCorrectSum_u,
+				    u->basis, astatus);
+            _braid_AccessVector(core, astatus, u);
+
+	    // Access to e.
+	    _braid_AccessStatusInit(ta[fi-ilower], fi, rnorm, iter, level, nrefine, gupper,
+                                    0, 0, braid_ASCaller_FInterp_BeforeCorrectSum_e,
+				    e->basis, astatus);
+            _braid_AccessVector(core, astatus, e);
+	 }
+	 
          _braid_BaseSum(core, app,  1.0, u, -1.0, e);
          _braid_MapCoarseToFine(fi, f_cfactor, f_index);
          _braid_Refine(core, f_level, f_index, fi, e, &f_e);
          _braid_UGetVectorRef(core, f_level, f_index, &f_u);
+
+	 // Now that we have refined the residual, we can offer the user access
+	 // to peek at both parts of f_e, f_u before we add them together, and
+	 // then see them after the sum is done.
+
+	 if ( (access_level >=3 ) )
+	 {
+	   // Access to f_u.
+	   _braid_AccessStatusInit(ta[fi-ilower], f_index, rnorm, iter, f_level, nrefine, gupper,
+				   0, 0, braid_ASCaller_FInterp_BeforeFineCorrectSum_u,
+				   f_u->basis, astatus);
+	   _braid_AccessVector(core, astatus, f_u);
+	   
+	   // Access to f_e.
+	   _braid_AccessStatusInit(ta[fi-ilower], f_index, rnorm, iter, f_level, nrefine, gupper,
+				   0, 0, braid_ASCaller_FInterp_BeforeFineCorrectSum_e,
+				   f_e->basis, astatus);
+	   _braid_AccessVector(core, astatus, f_e);
+	 }
+	 
          _braid_BaseSum(core, app,  1.0, f_e, 1.0, f_u);
 	 // If we have specified a projection map, we project f_u before we set anything,
 	 // we also allow the user to look at f_e if they desire to understand the error

@@ -763,6 +763,18 @@ ACCESSOR_HEADER_GET1(Objective, Tol,           Real)
 /** When CallingFunction equals 15, Braid is in Finterp, and we are supposed let the user
     have access to the error e, the error on the coarse level.*/
 #define braid_ASCaller_FInterp_VisualizeTau_Coarse 15
+/** When CallingFunction equals 16, Braid is in Finterp, and we are supposed let the user
+    have access to the coarse u before the coarse sum correction.*/
+#define braid_ASCaller_FInterp_BeforeCorrectSum_u 16
+/** When CallingFunction equals 16, Braid is in Finterp, and we are supposed let the user
+    have access to the coarse error e before the coarse sum.*/
+#define braid_ASCaller_FInterp_BeforeCorrectSum_e 17
+/** When CallingFunction equals 16, Braid is in Finterp, and we are supposed let the user
+    have access to the fine u before the correction sum.*/
+#define braid_ASCaller_FInterp_BeforeFineCorrectSum_u 18
+/** When CallingFunction equals 16, Braid is in Finterp, and we are supposed let the user
+    have access to the fine error e before we add to u.*/
+#define braid_ASCaller_FInterp_BeforeFineCorrectSum_e 19
 
 /** @}*/
 
