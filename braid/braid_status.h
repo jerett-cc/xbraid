@@ -754,39 +754,36 @@ ACCESSOR_HEADER_GET1(Objective, Tol,           Real)
 #define braid_ASCaller_Residual 11
 /** When CallingFunction equals 12, Braid is in InitGuess */
 #define braid_ASCaller_InitGuess 12
-/** When CallingFunction equals 13, Braid is in Finterp, and we are supposed to do a user
-    defined projection on the interpolated vector.*/
-#define braid_ASCaller_FInterp_Projection 13
-/** When CallingFunction equals 14, Braid is in Finterp, and we are supposed let the user
-    have access to the error f_e, otherwise known as tau.*/
-#define braid_ASCaller_FInterp_VisualizeTau 14
-/** When CallingFunction equals 15, Braid is in Finterp, and we are supposed let the user
-    have access to the error e, the error on the coarse level.*/
-#define braid_ASCaller_FInterp_VisualizeTau_Coarse 15
-/** When CallingFunction equals 16, Braid is in Finterp, and we are supposed let the user
-    have access to the coarse u before the coarse sum correction.*/
-#define braid_ASCaller_FInterp_BeforeCorrectSum_u 16
-/** When CallingFunction equals 17, Braid is in Finterp, and we are supposed let the user
-    have access to the coarse error e before the coarse sum.*/
-#define braid_ASCaller_FInterp_BeforeCorrectSum_e 17
+/** When CallingFunction equals 13, Braid is in Finterp, and we allow access to U+tau
+    the corrected state at this level. */
+#define braid_ASCaller_FInterp_UplusTau 13
+/** When CallingFunction equals 14, Braid is in Finterp, and we allow access to u at fpoints
+    on the coarse time level. */
+#define braid_ASCaller_FInterp_BeforeCorrectSum_u_FPoints 14
+/** When CallingFunction equals 15, Braid is in Finterp, and we allow acces to e at fpoints
+    on the coarse time level.*/
+#define braid_ASCaller_FInterp_BeforeCorrectSum_e_FPoints 15
+/** When CallingFunction equals 16, Braid is in Finterp, and we allow access to u at fpoints
+    on the fine fime level. It could be that these look the same as when 14 is called above. */
+#define braid_ASCaller_FInterp_BeforeFineCorrectSum_u_FPoints 16
+/** When CallingFunction equals 17, Braid is in Finterp, and we allow access to tau at fpoints
+    on the fine fime level. */
+#define braid_ASCaller_FInterp_BeforeFineCorrectSum_e_FPoints 17
 /** When CallingFunction equals 18, Braid is in Finterp, and we are supposed let the user
-    have access to the fine u before the correction sum.*/
-#define braid_ASCaller_FInterp_BeforeFineCorrectSum_u 18
+    have access to the u at cpoints before the correction sum on coarse time level. */
+#define braid_ASCaller_FInterp_CoarsePoint_BeforeCorrectSum_u 18
 /** When CallingFunction equals 19, Braid is in Finterp, and we are supposed let the user
-    have access to the fine error e before we add to u.*/
-#define braid_ASCaller_FInterp_BeforeFineCorrectSum_e 19
+    have access to the fine error e before we add to u at cpoints on coarse time level. */
+#define braid_ASCaller_FInterp_CoarsePoint_BeforeCorrectSum_e 19
 /** When CallingFunction equals 20, Braid is in Finterp, and we are supposed let the user
-    have access to the fine error e before we add to u.*/
-#define braid_ASCaller_FInterp_CoarsePoint_BeforeCorrectSum_u 20
+    have access to the fine u on the fine level.*/
+#define braid_ASCaller_FInterp_CoarsePoint_onfine_BeforeCorrectSum_u 20
 /** When CallingFunction equals 21, Braid is in Finterp, and we are supposed let the user
     have access to the fine error e before we add to u.*/
-#define braid_ASCaller_FInterp_CoarsePoint_BeforeCorrectSum_e 21
+#define braid_ASCaller_FInterp_CoarsePoint_onfine_BeforeCorrectSum_e 21
 /** When CallingFunction equals 22, Braid is in Finterp, and we are supposed let the user
     have access to the fine error e before we add to u.*/
-#define braid_ASCaller_FInterp_CoarsePoint_onfine_BeforeCorrectSum_u 22
-/** When CallingFunction equals 23, Braid is in Finterp, and we are supposed let the user
-    have access to the fine error e before we add to u.*/
-#define braid_ASCaller_FInterp_CoarsePoint_onfine_BeforeCorrectSum_e 23
+
 /** @}*/
 
 

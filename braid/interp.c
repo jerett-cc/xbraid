@@ -103,13 +103,13 @@ _braid_FInterp(braid_Core  core,
 	 {
 	   // Access to u.
             _braid_AccessStatusInit(ta[fi-ilower], fi, rnorm, iter, level, nrefine, gupper,
-                                    0, 0, braid_ASCaller_FInterp_BeforeCorrectSum_u,
+                                    0, 0, braid_ASCaller_FInterp_BeforeCorrectSum_u_FPoints,
 				    u->basis, astatus);
             _braid_AccessVector(core, astatus, u);
 
 	    // Access to e.
 	    _braid_AccessStatusInit(ta[fi-ilower], fi, rnorm, iter, level, nrefine, gupper,
-                                    0, 0, braid_ASCaller_FInterp_BeforeCorrectSum_e,
+                                    0, 0, braid_ASCaller_FInterp_BeforeCorrectSum_e_FPoints,
 				    e->basis, astatus);
             _braid_AccessVector(core, astatus, e);
 	 }
@@ -125,15 +125,15 @@ _braid_FInterp(braid_Core  core,
 
 	 if ( (access_level >=4 ) )
 	 {
-	   // Access to f_u.
+	   // Access to f_u, the state before we perform a correction.
 	   _braid_AccessStatusInit(ta[fi-ilower], f_index, rnorm, iter, f_level, nrefine, gupper,
-				   0, 0, braid_ASCaller_FInterp_BeforeFineCorrectSum_u,
+				   0, 0, braid_ASCaller_FInterp_BeforeFineCorrectSum_u_FPoints,
 				   f_u->basis, astatus);
 	   _braid_AccessVector(core, astatus, f_u);
 	   
-	   // Access to f_e.
+	   // Access to f_e = R(u-e), this is Tau.
 	   _braid_AccessStatusInit(ta[fi-ilower], f_index, rnorm, iter, f_level, nrefine, gupper,
-				   0, 0, braid_ASCaller_FInterp_BeforeFineCorrectSum_e,
+				   0, 0, braid_ASCaller_FInterp_BeforeFineCorrectSum_e_FPoints,
 				   f_e->basis, astatus);
 	   _braid_AccessVector(core, astatus, f_e);
 	 }
@@ -144,22 +144,12 @@ _braid_FInterp(braid_Core  core,
 	 // correction.
          if( (access_level >=3 ) )
          {
-	   // Access for f_e the error on fine level.
+	   // Access to f_u = U + tau, allowing to perform a projection.
 	   _braid_AccessStatusInit(ta[fi-ilower], f_index, rnorm, iter, f_level, nrefine, gupper,
-				   0, 0, braid_ASCaller_FInterp_VisualizeTau, f_u->basis, astatus);
-	   _braid_AccessVector(core, astatus, f_e);
-	   
-	   // Access for e the error u-e on the coarse level.
-	   _braid_AccessStatusInit(ta[fi-ilower], f_index, rnorm, iter, f_level, nrefine, gupper,
-				   0, 0, braid_ASCaller_FInterp_VisualizeTau_Coarse,
-				   u->basis, astatus);
-	   _braid_AccessVector(core, astatus, e);
-	   
-	   // Access to f_u, fix it with projection.
-	   _braid_AccessStatusInit(ta[fi-ilower], f_index, rnorm, iter, f_level, nrefine, gupper,
-				   0, 0, braid_ASCaller_FInterp_Projection, f_u->basis, astatus);
+				   0, 0, braid_ASCaller_FInterp_UplusTau, f_u->basis, astatus);
 	   _braid_AccessVector(core, astatus, f_u);
          }
+	   
          _braid_USetVectorRef(core, f_level, f_index, f_u);
          _braid_BaseFree(core, app,  f_e);
          if (_braid_CoreElt(core, delta_correct))
@@ -215,11 +205,13 @@ _braid_FInterp(braid_Core  core,
          if( (access_level >= 4) )
          {
             _braid_AccessStatusInit(ta[ci-ilower], f_index, rnorm, iter, f_level, nrefine, gupper,
-                                    0, 0, braid_ASCaller_FInterp_CoarsePoint_onfine_BeforeCorrectSum_u,
+                                    0, 0,
+				    braid_ASCaller_FInterp_CoarsePoint_onfine_BeforeCorrectSum_u,
 				    f_u->basis, astatus);
             _braid_AccessVector(core, astatus, f_u);
 	    _braid_AccessStatusInit(ta[ci-ilower], f_index, rnorm, iter, f_level, nrefine, gupper,
-                                    0, 0, braid_ASCaller_FInterp_CoarsePoint_onfine_BeforeCorrectSum_e,
+                                    0, 0, 
+				    braid_ASCaller_FInterp_CoarsePoint_onfine_BeforeCorrectSum_e,
 				    f_e->basis, astatus);
             _braid_AccessVector(core, astatus, f_e);
 	    
@@ -229,7 +221,7 @@ _braid_FInterp(braid_Core  core,
          if( (access_level >=3 ) )
          {
             _braid_AccessStatusInit(ta[fi-ilower], f_index, rnorm, iter, f_level, nrefine, gupper,
-                                    0, 0, braid_ASCaller_FInterp_Projection, f_u->basis, astatus);
+                                    0, 0, braid_ASCaller_FInterp_UplusTau, f_u->basis, astatus);
             _braid_AccessVector(core, astatus, f_u);
          }
          _braid_USetVectorRef(core, f_level, f_index, f_u);
