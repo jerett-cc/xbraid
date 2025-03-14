@@ -547,7 +547,7 @@ _braid_Drive(braid_Core  core,
             if(level == (nlevels-1)){
                timer = _braid_MPI_Wtime(core, 2);
             }
-            _braid_FInterp(core, level);
+            _braid_FInterp(core, level); // E-Spike is present here. at t = 1.5, and on level 2.
             if(level == (nlevels-1)){
                _braid_CoreElt(core, timer_coarse_solve) += _braid_MPI_Wtime(core, 2) - timer;
             }

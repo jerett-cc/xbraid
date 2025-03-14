@@ -188,17 +188,16 @@ _braid_FInterp(braid_Core  core,
             _braid_AccessStatusInit(ta[ci-ilower], ci, rnorm, iter, level, nrefine, gupper,
                                     0, 0, braid_ASCaller_FInterp_CoarsePoint_BeforeCorrectSum_u,
 				    u->basis, astatus);
-            _braid_AccessVector(core, astatus, u);
+            _braid_AccessVector(core, astatus, u); // The E-Spike is present here.
 	    _braid_AccessStatusInit(ta[ci-ilower], ci, rnorm, iter, level, nrefine, gupper,
                                     0, 0, braid_ASCaller_FInterp_CoarsePoint_BeforeCorrectSum_e,
 				    e->basis, astatus);
-            _braid_AccessVector(core, astatus, e);
-	    
+            _braid_AccessVector(core, astatus, e); // E-Spike not present here.
          }
 	 
-         _braid_BaseSum(core, app,  1.0, u, -1.0, e);
+         _braid_BaseSum(core, app,  1.0, u, -1.0, e); // u-e = residual.
          _braid_MapCoarseToFine(ci, f_cfactor, f_index);
-         _braid_Refine(core, f_level, f_index, ci, e, &f_e);
+         _braid_Refine(core, f_level, f_index, ci, e, &f_e);// Is the thing present here?
          _braid_UGetVectorRef(core, f_level, f_index, &f_u);
 
 	 /* Allow user to process current C-point u and e but on fine level before summing. */
@@ -213,7 +212,7 @@ _braid_FInterp(braid_Core  core,
                                     0, 0, 
 				    braid_ASCaller_FInterp_CoarsePoint_onfine_BeforeCorrectSum_e,
 				    f_e->basis, astatus);
-            _braid_AccessVector(core, astatus, f_e);
+            _braid_AccessVector(core, astatus, f_e);// E-Spike present in this term before summing.
 	    
          }
          _braid_BaseSum(core, app,  1.0, f_e, 1.0, f_u);
