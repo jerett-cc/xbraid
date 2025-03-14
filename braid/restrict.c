@@ -150,6 +150,8 @@ _braid_FRestrict(braid_Core   core,
             _braid_AccessVector(core, astatus, r);
          }
 
+	 // TODO: add a access call to evaluate if E-Spike happens here in the above step.
+
          /* Evaluate the user's local objective function at F-points on finest grid */
          if ( _braid_CoreElt(core, adjoint) && level == 0)
          {
@@ -297,6 +299,9 @@ _braid_FRestrict(braid_Core   core,
             }
             else
             {
+	      // TODO: add an access to see if E-spike is in c_u or c_fa[c_ii] on coarse level.
+	      //       this, before and maybe after the sum?
+	      
                _braid_BaseSum(core, app,  1.0, c_u, 1.0, c_fa[c_ii]);
             }
          }

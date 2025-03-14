@@ -507,11 +507,11 @@ _braid_Drive(braid_Core  core,
          /* Down cycle */
 
          /* CF-relaxation */
-         _braid_FCRelax(core, level);
+	_braid_FCRelax(core, level); // E-Spike here?
 
          /* F-relax then restrict (note that FRestrict computes a new rnorm) */
          /* if adjoint: This computes the local objective function at each step on finest grid. */
-         _braid_FRestrict(core, level);
+	_braid_FRestrict(core, level); // E-Spike here?
 
          /* Compute full residual norm if requested */
          if ( (level == 0) &&  (fullres != NULL) )

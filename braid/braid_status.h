@@ -781,8 +781,12 @@ ACCESSOR_HEADER_GET1(Objective, Tol,           Real)
 /** When CallingFunction equals 21, Braid is in Finterp, and we are supposed let the user
     have access to the fine error e before we add to u.*/
 #define braid_ASCaller_FInterp_CoarsePoint_onfine_BeforeCorrectSum_e 21
-/** When CallingFunction equals 22, Braid is in Finterp, and we are supposed let the user
-    have access to the fine error e before we add to u.*/
+/** When CallingFunction equals 22, Braid is in FCRelax, and we are supposed let the user
+    have access to the fpoints after F-Relaxation on each brick on level.*/
+#define braid_ASCaller_FCRelax_U_fpoint 22
+/** When CallingFunction equals 23, Braid is in FCRelax, and we are supposed let the user
+    have access to the cpoints after C-Relaxation on each brick on level.*/
+#define braid_ASCaller_FCRelax_U_cpoint 23
 
 /** @}*/
 

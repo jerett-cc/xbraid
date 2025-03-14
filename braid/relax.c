@@ -182,6 +182,13 @@ _braid_FCRelax(braid_Core  core,
 
 	    // TODO: add access here with access_level >= 4 to see if the e-spike happens
 	    // on coarsest_level after the step function above.
+	    if ( (access_level >= 4) )
+	    {
+	      _braid_AccessStatusInit(ta[fi-f_ilower], fi, rnm, iter, level, nrefine, gupper_zero,
+                                       done, 0, braid_ASCaller_FCRelax_U_fpoint, u->basis, astatus);
+	      _braid_AccessVector(core, astatus, u);
+	    }
+	    
          }
 
          /* C-relaxation */
@@ -208,6 +215,12 @@ _braid_FCRelax(braid_Core  core,
 
 	    // TODO: allow access to the vector after C-Relaxation. with access_level >= 4.
 	    // We want to see if the C-relaxation causes any issue with the E-Spike
+	    if ( (access_level >= 4) )
+	    {
+	      _braid_AccessStatusInit(ta[fi-f_ilower], fi, rnm, iter, level, nrefine, gupper_zero,
+                                       done, 0, braid_ASCaller_FCRelax_U_cpoint, u->basis, astatus);
+	      _braid_AccessVector(core, astatus, u);
+	    }
 	    
             /* Compute Richardson weights a and b */
             if ( richardson )
