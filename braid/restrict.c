@@ -101,6 +101,7 @@ _braid_FRestrict(braid_Core   core,
 
    braid_Int            c_level, c_ilower, c_iupper, c_index, c_i, c_ii;
    braid_BaseVector     c_u, *c_va, *c_fa;
+   braid_Real           *c_ta;
 
    braid_BaseVector     u, r;
    braid_Int            interval, flo, fhi, fi, ci;
@@ -111,6 +112,7 @@ _braid_FRestrict(braid_Core   core,
    c_iupper = _braid_GridElt(grids[c_level], iupper);
    c_va     = _braid_GridElt(grids[c_level], va);
    c_fa     = _braid_GridElt(grids[c_level], fa);
+   c_ta     = _braid_GridElt(grids[c_level], ta);
 
    rnorm = 0.0;
 
@@ -151,7 +153,12 @@ _braid_FRestrict(braid_Core   core,
          }
 
 	 // TODO: add a access call to evaluate if E-Spike happens here in the above step.
-
+	 if( (access_level >= 3) )
+         {
+            _braid_AccessStatusInit(ta[fi-f_ilower], fi, rnm, iter, level, nrefine, gupper,
+                                    0, 0, braid_ASCaller_FRestrict_residual_fi, r->basis, astatus);
+            _braid_AccessVector(core, astatus, r);
+         }
          /* Evaluate the user's local objective function at F-points on finest grid */
          if ( _braid_CoreElt(core, adjoint) && level == 0)
          {
@@ -301,7 +308,17 @@ _braid_FRestrict(braid_Core   core,
             {
 	      // TODO: add an access to see if E-spike is in c_u or c_fa[c_ii] on coarse level.
 	      //       this, before and maybe after the sum?
-	      
+	      if( (access_level >= 3) )
+		{
+		  _braid_AccessStatusInit(c_ta[c_ii-1], c_i, 0, iter, c_level, nrefine, gupper,
+					  0, 0, braid_ASCaller_FRestrict_cu, c_u->basis, astatus);
+		  _braid_AccessVector(core, astatus, c_u);
+		  
+		   _braid_AccessStatusInit(c_ta[c_ii], c_i, 0, iter, c_level, nrefine, gupper,
+					   0, 0, braid_ASCaller_FRestrict_cfa, c_fa[c_ii]->basis,
+					   astatus);
+		  _braid_AccessVector(core, astatus, c_fa[c_ii]);
+		}
                _braid_BaseSum(core, app,  1.0, c_u, 1.0, c_fa[c_ii]);
             }
          }
