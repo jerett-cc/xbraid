@@ -186,7 +186,7 @@ _braid_FCRelax(braid_Core  core,
 	    {
 	      _braid_AccessStatusInit(ta[fi-f_ilower], fi, rnm, iter, level, nrefine, gupper_zero,
                                        done, 0, braid_ASCaller_FCRelax_U_fpoint, u->basis, astatus);
-	      _braid_AccessVector(core, astatus, u);
+	      _braid_AccessVector(core, astatus, u); // E-Spike not present here.
 	    }
 	    
          }
@@ -219,7 +219,7 @@ _braid_FCRelax(braid_Core  core,
 	    {
 	      _braid_AccessStatusInit(ta[fi-f_ilower], fi, rnm, iter, level, nrefine, gupper_zero,
                                        done, 0, braid_ASCaller_FCRelax_U_cpoint, u->basis, astatus);
-	      _braid_AccessVector(core, astatus, u);
+	      _braid_AccessVector(core, astatus, u); // E-Spike not present here.
 	    }
 	    
             /* Compute Richardson weights a and b */

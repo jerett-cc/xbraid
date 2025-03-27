@@ -203,11 +203,13 @@ _braid_FInterp(braid_Core  core,
 	 /* Allow user to process current C-point u and e but on fine level before summing. */
          if( (access_level >= 4) )
          {
-            _braid_AccessStatusInit(ta[ci-ilower], f_index, rnorm, iter, f_level, nrefine, gupper,
+	   // access to current fine U on the fine level before summing f_e.
+	   _braid_AccessStatusInit(ta[ci-ilower], f_index, rnorm, iter, f_level, nrefine, gupper,
                                     0, 0,
 				    braid_ASCaller_FInterp_CoarsePoint_onfine_BeforeCorrectSum_u,
 				    f_u->basis, astatus);
             _braid_AccessVector(core, astatus, f_u);
+	    // access fe which is the refinement of u-e on the fine level at this point.
 	    _braid_AccessStatusInit(ta[ci-ilower], f_index, rnorm, iter, f_level, nrefine, gupper,
                                     0, 0, 
 				    braid_ASCaller_FInterp_CoarsePoint_onfine_BeforeCorrectSum_e,

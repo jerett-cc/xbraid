@@ -788,9 +788,12 @@ ACCESSOR_HEADER_GET1(Objective, Tol,           Real)
     have access to the cpoints after C-Relaxation on each brick on level.*/
 #define braid_ASCaller_FCRelax_U_cpoint 23
 
+#define braid_ASCaller_FInterp_CoarsePoint_oncoarse_e_residual 24
 #define braid_ASCaller_FRestrict_residual_fi 25
 #define braid_ASCaller_FRestrict_cu 26
 #define braid_ASCaller_FRestrict_cfa 27
+
+
 /** @}*/
 
 

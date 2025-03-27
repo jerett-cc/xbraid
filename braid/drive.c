@@ -448,6 +448,11 @@ _braid_Drive(braid_Core  core,
    braid_Real     rnorm_adj;
    braid_Real     timer;
 
+   /*Communicator Information*/
+   MPI_Comm  comm = _braid_CoreElt(core, comm);
+   braid_Int myid;
+   MPI_Comm_rank( comm, &myid );
+
    /* Cycle state variables */
    _braid_CycleState  cycle;
    braid_Int          iter, level, done, refined;
@@ -467,9 +472,14 @@ _braid_Drive(braid_Core  core,
    level = 0;
    if (skip)
    {
-      /* Skip work on first down cycle */
-      level = nlevels-1;
-      _braid_CopyFineToCoarse(core);
+     /* Skip work on first down cycle */
+     level = nlevels-1;
+     _braid_CopyFineToCoarse(core);
+     /* Tell user that the first down cycle is skipped. */
+     if (myid == 0)
+     {
+       printf("Down Cycle Skipped. Going Up from level %i", level);
+     }
    }
 
    iter = 0;
@@ -504,8 +514,11 @@ _braid_Drive(braid_Core  core,
 
       if (cycle.down)
       {
-         /* Down cycle */
-
+	/* Down cycle */
+	if (myid == 0)
+	{
+	  printf("Down Cycle on level %i", level);
+	}
          /* CF-relaxation */
 	_braid_FCRelax(core, level); // E-Spike here?
 
@@ -526,7 +539,10 @@ _braid_Drive(braid_Core  core,
       else
       {
          /* Up cycle */
-
+	if (myid == 0)
+	{
+	  printf("Up Cycle level %i", level);
+	}
          if (level > 0)
          {
             /* Set core->level to dummy value signifying coarsest grid solve. Must reset core->level after FInterp below */
