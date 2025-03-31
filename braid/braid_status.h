@@ -792,6 +792,7 @@ ACCESSOR_HEADER_GET1(Objective, Tol,           Real)
 #define braid_ASCaller_FRestrict_residual_fi 25
 #define braid_ASCaller_FRestrict_cu 26
 #define braid_ASCaller_FRestrict_cfa 27
+#define  braid_ASCaller_FRestrict_r_beforefrelax 28
 
 
 /** @}*/

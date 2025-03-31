@@ -140,6 +140,14 @@ _braid_FRestrict(braid_Core   core,
       _braid_GetRNorm(core, -1, &rnm);
       for (fi = flo; fi <= fhi; fi++)
       {
+	/* TODO: Add access here to viz the initial brick before stepping.*/
+	if( (fi==flo) & (access_level >= 3) )
+	  {
+	    _braid_AccessStatusInit(ta[fi-f_ilower], fi, rnm, iter, level, nrefine, gupper,
+				    0, 0, braid_ASCaller_FRestrict_r_beforefrelax, r->basis, astatus);
+	    _braid_AccessVector(core, astatus, r);
+	  }
+	
          _braid_Step(core, level, fi, braid_ASCaller_FRestrict, NULL, r);
          _braid_USetVector(core, level, fi, r, 0);
          
