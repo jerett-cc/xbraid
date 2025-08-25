@@ -82,7 +82,7 @@ _braid_FInterp(braid_Core  core,
          if( (access_level >= 3) )
          {
             _braid_AccessStatusInit(ta[fi-ilower], fi, rnorm, iter, level, nrefine, gupper,
-                                    0, 0, braid_ASCaller_FInterp, u->basis, astatus);
+                                    0, 0, braid_ASCaller_FInterp_afterstep, u->basis, astatus);
             _braid_AccessVector(core, astatus, u);
          }
          if (_braid_CoreElt(core, delta_correct))
@@ -105,7 +105,8 @@ _braid_FInterp(braid_Core  core,
          if( (access_level >=3 ) )
          {
             _braid_AccessStatusInit(ta[fi-ilower], f_index, rnorm, iter, f_level, nrefine, gupper,
-                                    0, 0, braid_ASCaller_FInterp_Projection, f_u->basis, astatus);
+                                    0, 0, braid_ASCaller_FInterp_Projection_frelax,
+				    f_u->basis, astatus);
             _braid_AccessVector(core, astatus, f_u);
          }
          _braid_USetVectorRef(core, f_level, f_index, f_u);
